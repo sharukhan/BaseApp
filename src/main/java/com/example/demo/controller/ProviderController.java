@@ -30,13 +30,13 @@ public class ProviderController {
 	
 	//get provider 
 			@GetMapping("providers")
-			public List<Provider> getAllUser(){
+			public List<Provider> getAllProviders(){
 				return this.providerRepository.findAll();
 			}
 			
 			//get provider by id
 			@GetMapping("provider/{id}")
-			public ResponseEntity<Provider> getuserById(@PathVariable(value = "id") Long providerId)
+			public ResponseEntity<Provider> getProviderById(@PathVariable(value = "id") Long providerId)
 				throws ResourceNotFoundException {
 				Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
 				return ResponseEntity.ok().body(provider);
@@ -44,7 +44,7 @@ public class ProviderController {
 			
 			//save provider
 			@PostMapping("createProvider")
-			public Provider createUser(@RequestBody Provider provider) {
+			public Provider createProvider(@RequestBody Provider provider) {
 				return this.providerRepository.save(provider);
 			}
 			
@@ -62,7 +62,7 @@ public class ProviderController {
 			
 			//delete Provider
 			@DeleteMapping("deleteProvider/{id}")
-			public Map<String, Boolean> deleteuser(@PathVariable(value = "id") Long providerId) throws ResourceNotFoundException {
+			public Map<String, Boolean> deleteProvider(@PathVariable(value = "id") Long providerId) throws ResourceNotFoundException {
 				
 				Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
 				this.providerRepository.delete(provider);
