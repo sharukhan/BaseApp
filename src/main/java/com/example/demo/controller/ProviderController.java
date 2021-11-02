@@ -29,13 +29,13 @@ public class ProviderController {
 	private ProviderRepository providerRepository;
 	
 	//get provider 
-			@GetMapping("providers")
+			@GetMapping("/providers")
 			public List<Provider> getAllProviders(){
 				return this.providerRepository.findAll();
 			}
 			
 			//get provider by id
-			@GetMapping("provider/{id}")
+			@GetMapping("/provider/{id}")
 			public ResponseEntity<Provider> getProviderById(@PathVariable(value = "id") Long providerId)
 				throws ResourceNotFoundException {
 				Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
@@ -43,25 +43,23 @@ public class ProviderController {
 			}
 			
 			//save provider
-			@PostMapping("createProvider")
+			@PostMapping("/createProvider")
 			public Provider createProvider(@RequestBody Provider provider) {
 				return this.providerRepository.save(provider);
 			}
 			
 			//update provider
-			@PutMapping("update/{id}")
+			@PutMapping("/update/{id}")
 			public ResponseEntity<Provider> updateProvider(@PathVariable(value = "id") Long providerId, @Validated @RequestBody Provider providerDetail) throws ResourceNotFoundException{
 				
 				Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
-				provider.setProviderName(providerDetail.getProviderName());
-				provider.setProviderMobile(providerDetail.getProviderMobile());
-				provider.setProviderAddress(providerDetail.getProviderAddress());
+				provider.setProviderLogoUrl(providerDetail.getProviderLogoUrl());
 				return ResponseEntity.ok().body(provider);
 				
 			}
 			
 			//delete Provider
-			@DeleteMapping("deleteProvider/{id}")
+			@DeleteMapping("/deleteProvider/{id}")
 			public Map<String, Boolean> deleteProvider(@PathVariable(value = "id") Long providerId) throws ResourceNotFoundException {
 				
 				Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));

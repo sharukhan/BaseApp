@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,54 +22,37 @@ public class Provider {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long providerId;
 	
-	@Column(name = "provider_name")
-	private String providerName;
-	@Column(name = "provider_mobile_number")
-	private long providerMobile;
-	@Column(name = "provider_address")
-	private String providerAddress;
+	@Column(name = "provider_logo_url")
+	private String providerLogoUrl;
 	
-	@OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Bim> bims;
+	@OneToMany
+	@JoinColumn(name = "bim_supplier_id")
+	private Bim bim;
 	
-	@OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<User> user;
-	
+	@OneToMany
+	@JoinColumn(name = "supplier_id")
+	private User user;
+		
+	//Constructors
 	public Provider() {
 		super();
 	}
 
-	public Provider(String providerName, long providerMobile, String providerAddress) {
+	public Provider(String providerLogoUrl) {
 		super();
-		this.providerName = providerName;
-		this.providerMobile = providerMobile;
-		this.providerAddress = providerAddress;
+		this.providerLogoUrl = providerLogoUrl;
 	}
 
-	public String getProviderName() {
-		return providerName;
+	//Getters&Setters
+	public String getProviderLogoUrl() {
+		return providerLogoUrl;
 	}
 
-	public void setProviderName(String providerName) {
-		this.providerName = providerName;
-	}
-
-	public long getProviderMobile() {
-		return providerMobile;
-	}
-
-	public void setProviderMobile(long providerMobile) {
-		this.providerMobile = providerMobile;
-	}
-
-	public String getProviderAddress() {
-		return providerAddress;
-	}
-
-	public void setProviderAddress(String providerAddress) {
-		this.providerAddress = providerAddress;
+	public void setProviderLogoUrl(String providerLogoUrl) {
+		this.providerLogoUrl = providerLogoUrl;
 	}
 	
 	
+			
 
 }

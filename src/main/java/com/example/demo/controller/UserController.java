@@ -21,21 +21,21 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/user")
 public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
 	
 	//get user 
-	@GetMapping("users")
+	@GetMapping("/users")
 	public List<User> getAllUser(){
 		return this.userRepository.findAll();
 	}
 	
 	
 	//get user by id
-	@GetMapping("user/{id}")
+	@GetMapping("/user/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId)
 		throws ResourceNotFoundException {
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found:" + userId));
@@ -43,24 +43,27 @@ public class UserController {
 	}
 	
 	//save user
-	@PostMapping("createUser")
+	@PostMapping("/createUser")
 	public User createUser(@RequestBody User user) {
 		return this.userRepository.save(user);
 	}
 	
 	//update user
-	@PutMapping("update/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId, @Validated @RequestBody User userDetail) throws ResourceNotFoundException{
 		
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found:" + userId));
-		user.setfName(userDetail.getfName());
-		user.setlName(userDetail.getlName());
-		user.setEmail(userDetail.getEmail());
+		user.setUserRoleId(userDetail.getUserRoleId());
+		user.setUserName(userDetail.getUserName());
+		user.setUserTitle(userDetail.getUserTitle());
+		user.setUserEmail(userDetail.getUserEmail());
+		user.setSupplierId(userDetail.getSupplierId());
+		user.setClientId(userDetail.getClientId());
 		return ResponseEntity.ok(this.userRepository.save(user));
 		
 	}
 	//delete user
-	@DeleteMapping("deleteUser/{id}")
+	@DeleteMapping("/deleteUser/{id}")
 	public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
 		
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found:" + userId));

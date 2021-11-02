@@ -27,38 +27,46 @@ public class BimController {
 	@Autowired
 	private  BimRepository bimRepository;
 	
-	//get user 
-		@GetMapping("users")
+	//get bim user 
+		@GetMapping("/users")
 		public List<Bim> getAllBimUser(){
 			return this.bimRepository.findAll();
 		}
 		
-		//get user by id
-		@GetMapping("user/{id}")
+		//get bim user by id
+		@GetMapping("/user/{id}")
 		public ResponseEntity<Bim> getBimUserById(@PathVariable(value = "id") Long bimId)
 			throws ResourceNotFoundException {
 			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim User not found:" + bimId));
 			return ResponseEntity.ok().body(bim);
 		}
 		
-		//save user
-		@PostMapping("createUser")
+		//save bim user
+		@PostMapping("/createUser")
 		public Bim createBimUser(@RequestBody Bim bim) {
 			return this.bimRepository.save(bim);
 		}
 		
-		//update user
-		@PutMapping("update/{id}")
+		//update bim user
+		@PutMapping("/update/{id}")
 		public ResponseEntity<Bim> updateBimUser(@PathVariable(value = "id") Long bimId, @Validated @RequestBody Bim bimDetail) throws ResourceNotFoundException{
 			
 			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim User not found:" + bimId));
-			bim.setBimName(bimDetail.getBimName());
+			bim.setBimSupplierId(bimDetail.getBimSupplierId());
+			bim.setBimTitle(bimDetail.getBimTitle());
+			bim.setBimInsightUrl(bimDetail.getBimInsightUrl());
+			bim.setBimBenefitsUrl(bimDetail.getBimBenefitsUrl());
+			bim.setBimOneLinerDescription(bimDetail.getBimOneLinerDescription());
+			bim.setBimRating(bimDetail.getBimRating());
+			bim.setBimLayoutType(bimDetail.getBimLayoutType());
+			bim.setBimStatus(bimDetail.getBimStatus());
+			bim.setBimContentId(bimDetail.getBimContentId());
 			return ResponseEntity.ok(this.bimRepository.save(bim));
 			
 		}
 		
-		//delete user
-		@DeleteMapping("deleteUser/{id}")
+		//delete bim user
+		@DeleteMapping("/deleteUser/{id}")
 		public Map<String, Boolean> deleteBimUser(@PathVariable(value = "id") Long bimId) throws ResourceNotFoundException {
 			
 			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim User not found:" + bimId));

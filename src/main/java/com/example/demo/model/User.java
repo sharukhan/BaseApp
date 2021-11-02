@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -22,53 +23,91 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name = "first_name")
-	private String fName;
-	@Column(name = "last_name")
-	private String lName;
-	@Column(name = "email")
-	private String email;
+	@Column(name = "user_role_id")
+	private long userRoleId;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Bim> bims;
+	@Column(name = "user_name")
+	private String userName;
 	
-	@OneToOne
-    @JoinColumn(name = "provider_id")
-	private Set<Provider> provider;
-		
+	@Column(name = "user_title")
+	private String userTitle;
+	
+	@Column(name = "user_email")
+	private String userEmail;
+	
+	@Column(name = "supplier_id")
+	private String supplierId;
+	
+	@Column(name = "client_id")
+	private String clientId;
+	
+	@ManyToMany
+	@JoinColumn(name = "bim_instance_client_id")
+	private BimInstance bimInstance;
+	
+	//Constructors
 	public User() {
 		super();
 	}
-	
-	public User(String fName, String lName, String email) {
+
+	public User(long userRoleId, String userName, String userTitle, String userEmail, String supplierId,
+			String clientId) {
 		super();
-		this.fName = fName;
-		this.lName = lName;
-		this.email = email;
+		this.userRoleId = userRoleId;
+		this.userName = userName;
+		this.userTitle = userTitle;
+		this.userEmail = userEmail;
+		this.supplierId = supplierId;
+		this.clientId = clientId;
 	}
-	public long getId() {
-		return id;
+
+	//Getters&Setters
+	public long getUserRoleId() {
+		return userRoleId;
 	}
-	public void setId(long id) {
-		this.id = id;
+
+	public void setUserRoleId(long userRoleId) {
+		this.userRoleId = userRoleId;
 	}
-	public String getfName() {
-		return fName;
+
+	public String getUserName() {
+		return userName;
 	}
-	public void setfName(String fName) {
-		this.fName = fName;
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public String getlName() {
-		return lName;
+
+	public String getUserTitle() {
+		return userTitle;
 	}
-	public void setlName(String lName) {
-		this.lName = lName;
+
+	public void setUserTitle(String userTitle) {
+		this.userTitle = userTitle;
 	}
-	public String getEmail() {
-		return email;
+
+	public String getUserEmail() {
+		return userEmail;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 	
 	
