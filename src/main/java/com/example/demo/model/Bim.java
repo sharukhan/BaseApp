@@ -29,9 +29,19 @@ public class Bim {
 		super();
 	}
 
-	public Bim(String bimName) {
+	
+	public Bim(String bimName, User user) {
 		super();
 		this.bimName = bimName;
+		this.user = user;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getBimName() {
