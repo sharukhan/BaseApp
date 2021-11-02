@@ -29,6 +29,9 @@ public class Provider {
 	private String providerAddress;
 	
 	@OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Bim> bims;
+	
+	@OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<User> user;
 	
 	public Provider() {

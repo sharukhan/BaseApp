@@ -25,6 +25,10 @@ public class Bim {
     @JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "provider_id", nullable = false)
+	private Provider provider;
+	
 	public Bim() {
 		super();
 	}
