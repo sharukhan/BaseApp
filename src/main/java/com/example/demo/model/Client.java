@@ -26,9 +26,11 @@ public class Client {
 	@Column(name = "client_country")
 	private String clientCountry;
 	
-	@OneToMany
-	@JoinColumn(name = "client_id")
-	private User user;
+	/*
+	 * @OneToMany
+	 * 
+	 * @JoinColumn(name = "client_id") private User user;
+	 */
 	
 	//Constructors
 	public Client() {

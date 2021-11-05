@@ -30,9 +30,11 @@ public class BimInstance {
 	@Column(name = "bim_instance_status")
 	private String status;
 	
-	@OneToOne
-	@JoinColumn(name = "bim_supplier_id")
-	private Bim bim;
+	/*
+	 * @OneToOne
+	 * 
+	 * @JoinColumn(name = "bim_supplier_id") private Bim bim;
+	 */
 		
 	//Constructors
 	public BimInstance() {

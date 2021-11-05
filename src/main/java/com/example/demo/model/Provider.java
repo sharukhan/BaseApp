@@ -25,13 +25,15 @@ public class Provider {
 	@Column(name = "provider_logo_url")
 	private String providerLogoUrl;
 	
-	@OneToMany
-	@JoinColumn(name = "bim_supplier_id")
-	private Bim bim;
-	
-	@OneToMany
-	@JoinColumn(name = "supplier_id")
-	private User user;
+	/*
+	 * @OneToMany
+	 * 
+	 * @JoinColumn(name = "bim_supplier_id") private Bim bim;
+	 * 
+	 * @OneToMany
+	 * 
+	 * @JoinColumn(name = "supplier_id") private User user;
+	 */
 		
 	//Constructors
 	public Provider() {

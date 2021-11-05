@@ -27,31 +27,31 @@ public class BimController {
 	@Autowired
 	private  BimRepository bimRepository;
 	
-	//get bim user 
-		@GetMapping("/users")
-		public List<Bim> getAllBimUser(){
+	//get bim
+		@GetMapping("/listAll")
+		public List<Bim> getAllBimDetail(){
 			return this.bimRepository.findAll();
 		}
 		
-		//get bim user by id
-		@GetMapping("/user/{id}")
+		//get bim by id
+		@GetMapping("/detail/{id}")
 		public ResponseEntity<Bim> getBimUserById(@PathVariable(value = "id") Long bimId)
 			throws ResourceNotFoundException {
-			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim User not found:" + bimId));
+			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
 			return ResponseEntity.ok().body(bim);
 		}
 		
-		//save bim user
-		@PostMapping("/createUser")
+		//save bim
+		@PostMapping("/create")
 		public Bim createBimUser(@RequestBody Bim bim) {
 			return this.bimRepository.save(bim);
 		}
 		
-		//update bim user
+		//update bim
 		@PutMapping("/update/{id}")
 		public ResponseEntity<Bim> updateBimUser(@PathVariable(value = "id") Long bimId, @Validated @RequestBody Bim bimDetail) throws ResourceNotFoundException{
 			
-			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim User not found:" + bimId));
+			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
 			bim.setBimSupplierId(bimDetail.getBimSupplierId());
 			bim.setBimTitle(bimDetail.getBimTitle());
 			bim.setBimInsightUrl(bimDetail.getBimInsightUrl());
@@ -65,11 +65,11 @@ public class BimController {
 			
 		}
 		
-		//delete bim user
-		@DeleteMapping("/deleteUser/{id}")
+		//delete bim
+		@DeleteMapping("/delete/{id}")
 		public Map<String, Boolean> deleteBimUser(@PathVariable(value = "id") Long bimId) throws ResourceNotFoundException {
 			
-			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim User not found:" + bimId));
+			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
 			this.bimRepository.delete(bim);
 			
 			Map<String, Boolean> response = new HashMap<>();

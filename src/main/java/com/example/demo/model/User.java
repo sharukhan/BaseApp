@@ -41,9 +41,11 @@ public class User {
 	@Column(name = "client_id")
 	private String clientId;
 	
-	@ManyToMany
-	@JoinColumn(name = "bim_instance_client_id")
-	private BimInstance bimInstance;
+	/*
+	 * @ManyToMany
+	 * 
+	 * @JoinColumn(name = "bim_instance_client_id") private BimInstance bimInstance;
+	 */
 	
 	//Constructors
 	public User() {

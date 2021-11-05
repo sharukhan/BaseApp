@@ -20,9 +20,11 @@ public class UserRole {
 	@Column(name = "user_role")
 	private String userRole;
 	
-	@OneToMany
-	@JoinColumn(name = "user_role_id")
-	private User user;
+	/*
+	 * @OneToMany
+	 * 
+	 * @JoinColumn(name = "user_role_id") private User user;
+	 */
 
 	//Constructors
 	public UserRole() {
