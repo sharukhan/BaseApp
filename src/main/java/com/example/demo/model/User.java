@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -41,11 +42,22 @@ public class User {
 	@Column(name = "client_id")
 	private String clientId;
 	
-	/*
-	 * @ManyToMany
-	 * 
-	 * @JoinColumn(name = "bim_instance_client_id") private BimInstance bimInstance;
-	 */
+	
+	  @ManyToMany
+	  @JoinColumn(name = "bim_instance_client_id") 
+	  private BimInstance bimInstance;
+	  
+	  @ManyToOne
+	  @JoinColumn(name = "client_id")
+	  private Client client;
+	  
+	  @ManyToOne
+	  @JoinColumn(name = "provider_id")
+	  private Provider provider;
+	  
+	  @OneToMany(mappedBy = "user")
+	  private Set<UserRole> userRole;
+	 
 	
 	//Constructors
 	public User() {

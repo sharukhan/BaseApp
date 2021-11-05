@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,11 +32,14 @@ public class BimInstance {
 	@Column(name = "bim_instance_status")
 	private String status;
 	
-	/*
-	 * @OneToOne
-	 * 
-	 * @JoinColumn(name = "bim_supplier_id") private Bim bim;
-	 */
+	
+	  @OneToOne	  
+	  @JoinColumn(name = "bim_supplier_id") 
+	  private Bim bim;
+	  
+	  @ManyToMany
+	  private Set<Client> client;
+	 
 		
 	//Constructors
 	public BimInstance() {

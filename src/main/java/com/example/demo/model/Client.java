@@ -1,11 +1,14 @@
 package com.example.demo.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -26,11 +29,13 @@ public class Client {
 	@Column(name = "client_country")
 	private String clientCountry;
 	
-	/*
-	 * @OneToMany
-	 * 
-	 * @JoinColumn(name = "client_id") private User user;
-	 */
+	
+	 @OneToMany(mappedBy = "client") 
+	 private Set<User> user;
+	 
+	 @ManyToMany
+	 private Set<BimInstance> bimInstance;
+	
 	
 	//Constructors
 	public Client() {

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -49,6 +50,12 @@ public class Bim {
 	@Column(name = "bim_content_id")
 	private String bimContentId;
 	
+		@OneToMany(mappedBy = "bim")
+		private Set<Provider> providers;
+		
+		@OneToOne(mappedBy = "bim")
+		private BimInstance bimInstance;
+		
 	
 	//Constructors
 	public Bim() {

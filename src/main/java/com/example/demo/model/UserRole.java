@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,11 +21,11 @@ public class UserRole {
 	@Column(name = "user_role")
 	private String userRole;
 	
-	/*
-	 * @OneToMany
-	 * 
-	 * @JoinColumn(name = "user_role_id") private User user;
-	 */
+	
+	  @ManyToOne  
+	  @JoinColumn(name = "user_role_id") 
+	  private User user;
+	 
 
 	//Constructors
 	public UserRole() {

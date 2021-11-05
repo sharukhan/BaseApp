@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,15 +26,14 @@ public class Provider {
 	@Column(name = "provider_logo_url")
 	private String providerLogoUrl;
 	
-	/*
-	 * @OneToMany
-	 * 
-	 * @JoinColumn(name = "bim_supplier_id") private Bim bim;
-	 * 
-	 * @OneToMany
-	 * 
-	 * @JoinColumn(name = "supplier_id") private User user;
-	 */
+	
+	  @ManyToOne	  
+	  @JoinColumn(name = "bim_supplier_id", nullable = false) 
+	  private Bim bim;
+	  
+	  @OneToMany
+	  private Set<User> user;
+	 
 		
 	//Constructors
 	public Provider() {
