@@ -18,65 +18,65 @@ public class BimInstance {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long bInsId;
+	private long id;
 	
-	@Column(name = "bim_instance_client_id")
-	private long insClientId;
+	@Column(name = "client_id")
+	private long client_Id;
 	
-	@Column(name = "bim_instance_supplier_id")
-	private long insSupplierId;
+	@Column(name = "supplier_id")
+	private long supplier_Id;
 	
-	@Column(name = "bim_Id")
-	private long bimId;
+	@Column(name = "Id")
+	private long bim_Id;
 	
-	@Column(name = "bim_instance_status")
+	@Column(name = "status")
 	private String status;
 	
 	
-	  @OneToOne	  
-	  @JoinColumn(name = "bim_supplier_id") 
-	  private Bim bim;
+	 @OneToOne	  
+	 @JoinColumn(name = "bim_supplier_id") 
+	 private Bim bim;
 	  
-	  @ManyToMany
-	  private Set<Client> client;
+	 @ManyToMany 
+	 private Set<Client> client;
 	 
-		
-	//Constructors
+	
+	
+
 	public BimInstance() {
 		super();
 	}
 
-	public BimInstance(long insClientId, long insSupplierId, String status, long bimId) {
+	public BimInstance(long client_Id, long supplier_Id, long bim_Id, String status) {
 		super();
-		this.insClientId = insClientId;
-		this.insSupplierId = insSupplierId;
-		this.bimId = bimId;
+		this.client_Id = client_Id;
+		this.supplier_Id = supplier_Id;
+		this.bim_Id = bim_Id;
 		this.status = status;
 	}
 
-	//Getters&Setters
-	public long getInsClientId() {
-		return insClientId;
+	public long getClient_Id() {
+		return client_Id;
 	}
 
-	public void setInsClientId(long insClientId) {
-		this.insClientId = insClientId;
+	public void setClient_Id(long client_Id) {
+		this.client_Id = client_Id;
 	}
 
-	public long getInsSupplierId() {
-		return insSupplierId;
+	public long getSupplier_Id() {
+		return supplier_Id;
 	}
 
-	public void setInsSupplierId(long insSupplierId) {
-		this.insSupplierId = insSupplierId;
-	}
-	
-	public long getBimId() {
-		return bimId;
+	public void setSupplier_Id(long supplier_Id) {
+		this.supplier_Id = supplier_Id;
 	}
 
-	public void setBimId(long bimId) {
-		this.bimId = bimId;
+	public long getBim_Id() {
+		return bim_Id;
+	}
+
+	public void setBim_Id(long bim_Id) {
+		this.bim_Id = bim_Id;
 	}
 
 	public String getStatus() {
@@ -86,7 +86,6 @@ public class BimInstance {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
+		
 
 }

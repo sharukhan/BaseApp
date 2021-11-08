@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,42 +12,38 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "user_role")
+/*@Entity
+@Table(name = "user_role")*/
 public class UserRole {
 	
-	@Id
+	
+	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long userRoleId;
+	private long id;
 	
-	@Column(name = "user_role")
-	private String userRole;
+	@Column(name = "name")
+	private String name;
 	
 	
-	  @ManyToOne  
-	  @JoinColumn(name = "user_role_id") 
-	  private User user;
+	 @OneToMany(mappedBy = "userrole")
+	 private Set<User> user;
 	 
-
-	//Constructors
+	
 	public UserRole() {
 		super();
 	}
 
-	public UserRole(String userRole) {
+	public UserRole(String name) {
 		super();
-		this.userRole = userRole;
+		this.name = name;
 	}
 
-	//Getters&Setters
-	public String getUserRole() {
-		return userRole;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	
-
 }

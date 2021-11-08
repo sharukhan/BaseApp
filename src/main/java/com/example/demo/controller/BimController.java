@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Bim;
 import com.example.demo.repository.BimRepository;
+import com.example.demo.service.BimService;
 
 @RestController
 @RequestMapping("/api/v1/bim")
@@ -27,55 +29,74 @@ public class BimController {
 	@Autowired
 	private  BimRepository bimRepository;
 	
+	@Autowired
+	private BimService bimService;
+	
 	//get bim
 		@GetMapping("/listAll")
 		public List<Bim> getAllBimDetail(){
-			return this.bimRepository.findAll();
+			List<Bim> bimDetail = new ArrayList<>();
+			try {
+				bimDetail = bimService.getAllBimDetail();
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+			
+			return bimDetail;
 		}
 		
 		//get bim by id
 		@GetMapping("/detail/{id}")
-		public ResponseEntity<Bim> getBimUserById(@PathVariable(value = "id") Long bimId)
+		public Bim getBimUserById(@PathVariable(value = "id") Long bimId)
 			throws ResourceNotFoundException {
-			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
-			return ResponseEntity.ok().body(bim);
+			Bim bim = new Bim();
+			try {
+				bim = bimService.getBimUserById(bimId);
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+			
+			return bim;
 		}
 		
 		//save bim
 		@PostMapping("/create")
 		public Bim createBimUser(@RequestBody Bim bim) {
-			return this.bimRepository.save(bim);
+			try {
+				bimService.createBimUser(bim);
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+			return bim;
 		}
 		
 		//update bim
 		@PutMapping("/update/{id}")
 		public ResponseEntity<Bim> updateBimUser(@PathVariable(value = "id") Long bimId, @Validated @RequestBody Bim bimDetail) throws ResourceNotFoundException{
 			
-			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
-			bim.setBimSupplierId(bimDetail.getBimSupplierId());
-			bim.setBimTitle(bimDetail.getBimTitle());
-			bim.setBimInsightUrl(bimDetail.getBimInsightUrl());
-			bim.setBimBenefitsUrl(bimDetail.getBimBenefitsUrl());
-			bim.setBimOneLinerDescription(bimDetail.getBimOneLinerDescription());
-			bim.setBimRating(bimDetail.getBimRating());
-			bim.setBimLayoutType(bimDetail.getBimLayoutType());
-			bim.setBimStatus(bimDetail.getBimStatus());
-			bim.setBimContentId(bimDetail.getBimContentId());
-			return ResponseEntity.ok(this.bimRepository.save(bim));
+			try {
+				bimService.updateBimUser(bimId, bimDetail);
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+			return null;
 			
 		}
 		
 		//delete bim
 		@DeleteMapping("/delete/{id}")
-		public Map<String, Boolean> deleteBimUser(@PathVariable(value = "id") Long bimId) throws ResourceNotFoundException {
+		public void deleteBimUser(@PathVariable(value = "id") Long bimId) throws ResourceNotFoundException {
 			
-			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
-			this.bimRepository.delete(bim);
-			
-			Map<String, Boolean> response = new HashMap<>();
-			response.put("deleted", Boolean.TRUE);
-			
-			return response;
+			try {
+				bimService.deleteBimUser(bimId);
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
 			
 		}
 

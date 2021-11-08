@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Bim;
 import com.example.demo.model.Client;
 import com.example.demo.repository.ClientRepository;
+import com.example.demo.service.ClientService;
 
 @RestController
 @RequestMapping("/api/v1/client")
@@ -27,50 +30,75 @@ public class ClientController {
 	@Autowired
 	private ClientRepository clientRepository;
 	
+	@Autowired
+	private ClientService clientService;
+	
 	
 	//get client
 			@GetMapping("/listAll")
 			public List<Client> getAllClientDetail(){
-				return this.clientRepository.findAll();
+				List<Client> clientDetail = new ArrayList<>();
+				try {
+					clientDetail = clientService.getAllClientDetail();
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				return clientDetail;
 			}
 			
 			//get client by id
 			@GetMapping("/Detail/{id}")
-			public ResponseEntity<Client> getClientById(@PathVariable(value = "id") Long clientId)
+			public Client getClientById(@PathVariable(value = "id") Long clientId)
 				throws ResourceNotFoundException {
-				Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found:" + clientId));
-				return ResponseEntity.ok().body(client);
+				Client client = new Client();
+				try {
+					client = clientService.getClientById(clientId);
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				return client;
 			}
 			
 			//save client
 			@PostMapping("/createClient")
 			public Client createClient(@RequestBody Client client) {
-				return this.clientRepository.save(client);
+				try {
+					clientService.createClient(client);
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				return client;
 			}
 			
 			//update client
 			@PutMapping("/updateClient/{id}")
 			public ResponseEntity<Client> updateClient(@PathVariable(value = "id") Long clientId, @Validated @RequestBody Client clientDetail) throws ResourceNotFoundException{
 				
-				Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found:" + clientId));
-				client.setClientName(clientDetail.getClientName());
-				client.setIndustryName(clientDetail.getIndustryName());
-				client.setClientCountry(clientDetail.getClientCountry());
-				return ResponseEntity.ok(this.clientRepository.save(client));
+				try {
+					clientService.updateClient(clientId, clientDetail);
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				return null;
 				
 			}
 			
 			//delete client
 			@DeleteMapping("/deleteClient/{id}")
-			public Map<String, Boolean> deleteClient(@PathVariable(value = "id") Long clientId) throws ResourceNotFoundException {
+			public void deleteClient(@PathVariable(value = "id") Long clientId) throws ResourceNotFoundException {
 				
-				Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found:" + clientId));
-				this.clientRepository.delete(client);
-				
-				Map<String, Boolean> response = new HashMap<>();
-				response.put("deleted", Boolean.TRUE);
-				
-				return response;
+				try {
+					clientService.deleteClient(clientId);
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
 				
 			}
 

@@ -16,115 +16,113 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "users")
+/*@Entity
+@Table(name = "users")*/
 public class User {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
 	
-	@Column(name = "user_role_id")
-	private long userRoleId;
+	 @Id	  
+	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	 private long id;
 	
-	@Column(name = "user_name")
-	private String userName;
+	@Column(name = "role_id")
+	private long role_Id;
 	
-	@Column(name = "user_title")
-	private String userTitle;
+	@Column(name = "name")
+	private String name;
 	
-	@Column(name = "user_email")
-	private String userEmail;
+	@Column(name = "title")
+	private String title;
+	
+	@Column(name = "email")
+	private String email;
 	
 	@Column(name = "supplier_id")
-	private String supplierId;
+	private String supplier_Id;
 	
 	@Column(name = "client_id")
-	private String clientId;
+	private String client_Id;
 	
 	
-	  @ManyToMany
-	  @JoinColumn(name = "bim_instance_client_id") 
-	  private BimInstance bimInstance;
-	  
-	  @ManyToOne
-	  @JoinColumn(name = "client_id")
-	  private Client client;
-	  
-	  @ManyToOne
-	  @JoinColumn(name = "provider_id")
-	  private Provider provider;
-	  
-	  @OneToMany(mappedBy = "user")
-	  private Set<UserRole> userRole;
+	 @ManyToMany	 
+	 @JoinColumn(name = "bim_instance_client_id") 
+	 private BimInstance bimInstance;
 	 
+	 @ManyToOne	 
+	 @JoinColumn(name = "client_id") 
+	 private Client client;
+	 
+	 @ManyToOne	 
+	 @JoinColumn(name = "provider_id") 
+	 private Provider provider;
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "id")
+	 private Set<UserRole> userRole;
 	
-	//Constructors
+
 	public User() {
 		super();
 	}
 
-	public User(long userRoleId, String userName, String userTitle, String userEmail, String supplierId,
-			String clientId) {
+	public User(long role_Id, String name, String title, String email, String supplier_Id, String client_Id) {
 		super();
-		this.userRoleId = userRoleId;
-		this.userName = userName;
-		this.userTitle = userTitle;
-		this.userEmail = userEmail;
-		this.supplierId = supplierId;
-		this.clientId = clientId;
+		this.role_Id = role_Id;
+		this.name = name;
+		this.title = title;
+		this.email = email;
+		this.supplier_Id = supplier_Id;
+		this.client_Id = client_Id;
 	}
 
-	//Getters&Setters
-	public long getUserRoleId() {
-		return userRoleId;
+	public long getRole_Id() {
+		return role_Id;
 	}
 
-	public void setUserRoleId(long userRoleId) {
-		this.userRoleId = userRoleId;
+	public void setRole_Id(long role_Id) {
+		this.role_Id = role_Id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getUserTitle() {
-		return userTitle;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setUserTitle(String userTitle) {
-		this.userTitle = userTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getUserEmail() {
-		return userEmail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getSupplierId() {
-		return supplierId;
+	public String getSupplier_Id() {
+		return supplier_Id;
 	}
 
-	public void setSupplierId(String supplierId) {
-		this.supplierId = supplierId;
+	public void setSupplier_Id(String supplier_Id) {
+		this.supplier_Id = supplier_Id;
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getClient_Id() {
+		return client_Id;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setClient_Id(String client_Id) {
+		this.client_Id = client_Id;
 	}
 	
+		
 	
-	
-
 }

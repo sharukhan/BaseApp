@@ -12,68 +12,66 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "client")
+/*@Entity
+@Table(name = "client")*/
 public class Client {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long clientId;
 	
-	@Column(name = "client_name")
-	private String clientName;
+	@Id  
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	private long id;
 	
-	@Column(name = "industry_name")
-	private String industryName;
+	@Column(name = "name")
+	private String name;
 	
-	@Column(name = "client_country")
-	private String clientCountry;
+	@Column(name = "name")
+	private String industry;
+	
+	@Column(name = "country")
+	private String country;
 	
 	
-	 @OneToMany(mappedBy = "client") 
-	 private Set<User> user;
+	@OneToMany(mappedBy = "client") 
+	private Set<User> user;
+	  
+	@ManyToMany 
+	private Set<BimInstance> bimInstance;
 	 
-	 @ManyToMany
-	 private Set<BimInstance> bimInstance;
 	
-	
-	//Constructors
 	public Client() {
 		super();
 	}
 
-	public Client(String clientName, String industryName, String clientCountry) {
+	public Client(String name, String industry, String country) {
 		super();
-		this.clientName = clientName;
-		this.industryName = industryName;
-		this.clientCountry = clientCountry;
+		this.name = name;
+		this.industry = industry;
+		this.country = country;
 	}
 
-	//Getters&Setters
-	public String getClientName() {
-		return clientName;
+	public String getName() {
+		return name;
 	}
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getIndustryName() {
-		return industryName;
+	public String getIndustry() {
+		return industry;
 	}
 
-	public void setIndustryName(String industryName) {
-		this.industryName = industryName;
+	public void setIndustry(String industry) {
+		this.industry = industry;
 	}
 
-	public String getClientCountry() {
-		return clientCountry;
+	public String getCountry() {
+		return country;
 	}
 
-	public void setClientCountry(String clientCountry) {
-		this.clientCountry = clientCountry;
+	public void setCountry(String country) {
+		this.country = country;
 	}
-	
-	
+		
 
 }

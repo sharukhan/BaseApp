@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Bim;
+import com.example.demo.model.Client;
 import com.example.demo.model.Provider;
 import com.example.demo.repository.ProviderRepository;
+import com.example.demo.service.ProviderService;
 
 @RestController
 @RequestMapping("/api/v1/provider")
@@ -28,47 +31,74 @@ public class ProviderController {
 	@Autowired
 	private ProviderRepository providerRepository;
 	
+	@Autowired
+	private ProviderService providerService;
+	
 	//get provider 
 			@GetMapping("/providers")
 			public List<Provider> getAllProviders(){
-				return this.providerRepository.findAll();
+				List<Provider> providerDetail = new ArrayList<>();
+				try {
+					providerDetail = providerService.getAllProviders();
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				return providerDetail;
 			}
 			
 			//get provider by id
 			@GetMapping("/provider/{id}")
-			public ResponseEntity<Provider> getProviderById(@PathVariable(value = "id") Long providerId)
+			public Provider getProviderById(@PathVariable(value = "id") Long providerId)
 				throws ResourceNotFoundException {
-				Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
-				return ResponseEntity.ok().body(provider);
+				Provider provider = new Provider();
+				try {
+					provider = providerService.getProviderById(providerId);
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				return provider;
 			}
 			
 			//save provider
 			@PostMapping("/createProvider")
 			public Provider createProvider(@RequestBody Provider provider) {
-				return this.providerRepository.save(provider);
+				try {
+					providerService.createProvider(provider);
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				return provider;
 			}
 			
 			//update provider
 			@PutMapping("/update/{id}")
 			public ResponseEntity<Provider> updateProvider(@PathVariable(value = "id") Long providerId, @Validated @RequestBody Provider providerDetail) throws ResourceNotFoundException{
 				
-				Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
-				provider.setProviderLogoUrl(providerDetail.getProviderLogoUrl());
-				return ResponseEntity.ok().body(provider);
+				try {
+					providerService.updateProvider(providerId, providerDetail);
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				return null;
 				
 			}
 			
 			//delete Provider
 			@DeleteMapping("/deleteProvider/{id}")
-			public Map<String, Boolean> deleteProvider(@PathVariable(value = "id") Long providerId) throws ResourceNotFoundException {
+			public void deleteProvider(@PathVariable(value = "id") Long providerId) throws ResourceNotFoundException {
 				
-				Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
-				this.providerRepository.delete(provider);
-				
-				Map<String, Boolean> response = new HashMap<>();
-				response.put("deleted", Boolean.TRUE);
-				
-				return response;
+				try {
+					providerService.deleteProvider(providerId);
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
 				
 			}
 

@@ -21,134 +21,148 @@ public class Bim {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long bimId;
+	private long id;
 	
-	@Column(name = "bim_supplier_id")
-	private String bimSupplierId;
+	@Column(name = "supplier_id")
+	private String supplierId;
 	
-	@Column(name = "bim_title")
-	private String bimTitle;
+	@Column(name = "title")
+	private String title;
 	
-	@Column(name = "bim_insight_url")
-	private String bimInsightUrl;
+	@Column(name = "insight_url")
+	private String insight_Url;
 	
-	@Column(name = "bim_benefits_url")
-	private String bimBenefitsUrl;
+	@Column(name = "benefits_url")
+	private String benefits_Url;
 	
-	@Column(name = "bim_oneliner_description")
-	private String bimOneLinerDescription;
+	@Column(name = "oneliner_description")
+	private String one_Liner_Description;
 	
-	@Column(name = "bim_rating")
-	private String bimRating;
+	@Column(name = "short_description")
+	private String short_Description;
 	
-	@Column(name = "bim_layout_type")
-	private String bimLayoutType;
+	@Column(name = "rating")
+	private String rating;
 	
-	@Column(name = "bim_status")
-	private String bimStatus;
+	@Column(name = "layout_type")
+	private String layout_Type;
 	
-	@Column(name = "bim_content_id")
-	private String bimContentId;
+	@Column(name = "status")
+	private String status;
 	
-		@OneToMany(mappedBy = "bim")
-		private Set<Provider> providers;
+	@Column(name = "content_id")
+	private String content_Id;
+	
+	
+	  @OneToMany(mappedBy = "bim") 
+	  private Set<Provider> providers;
+	 
 		
-		@OneToOne(mappedBy = "bim")
-		private BimInstance bimInstance;
-		
+	  @OneToOne(mappedBy = "bim") 
+	  private BimInstance bimInstance;
+		 
 	
-	//Constructors
+	
+
 	public Bim() {
 		super();
 	}
 
-	public Bim(String bimSupplierId, String bimTitle, String bimInsightUrl, String bimBenefitsUrl,
-			String bimOneLinerDescription, String bimRating, String bimLayoutType, String bimStatus,
-			String bimContentId, User user, Provider provider) {
+	public Bim(String supplierId, String title, String insight_Url, String benefits_Url, String one_Liner_Description,
+			String short_Description, String rating, String layout_Type, String status, String content_Id) {
 		super();
-		this.bimSupplierId = bimSupplierId;
-		this.bimTitle = bimTitle;
-		this.bimInsightUrl = bimInsightUrl;
-		this.bimBenefitsUrl = bimBenefitsUrl;
-		this.bimOneLinerDescription = bimOneLinerDescription;
-		this.bimRating = bimRating;
-		this.bimLayoutType = bimLayoutType;
-		this.bimStatus = bimStatus;
-		this.bimContentId = bimContentId;
+		this.supplierId = supplierId;
+		this.title = title;
+		this.insight_Url = insight_Url;
+		this.benefits_Url = benefits_Url;
+		this.one_Liner_Description = one_Liner_Description;
+		this.short_Description = short_Description;
+		this.rating = rating;
+		this.layout_Type = layout_Type;
+		this.status = status;
+		this.content_Id = content_Id;
 	}
 
-	//Getters&Setters
-	public String getBimSupplierId() {
-		return bimSupplierId;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setBimSupplierId(String bimSupplierId) {
-		this.bimSupplierId = bimSupplierId;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 
-	public String getBimTitle() {
-		return bimTitle;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setBimTitle(String bimTitle) {
-		this.bimTitle = bimTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getBimInsightUrl() {
-		return bimInsightUrl;
+	public String getInsight_Url() {
+		return insight_Url;
 	}
 
-	public void setBimInsightUrl(String bimInsightUrl) {
-		this.bimInsightUrl = bimInsightUrl;
+	public void setInsight_Url(String insight_Url) {
+		this.insight_Url = insight_Url;
 	}
 
-	public String getBimBenefitsUrl() {
-		return bimBenefitsUrl;
+	public String getBenefits_Url() {
+		return benefits_Url;
 	}
 
-	public void setBimBenefitsUrl(String bimBenefitsUrl) {
-		this.bimBenefitsUrl = bimBenefitsUrl;
+	public void setBenefits_Url(String benefits_Url) {
+		this.benefits_Url = benefits_Url;
 	}
 
-	public String getBimOneLinerDescription() {
-		return bimOneLinerDescription;
+	public String getOne_Liner_Description() {
+		return one_Liner_Description;
 	}
 
-	public void setBimOneLinerDescription(String bimOneLinerDescription) {
-		this.bimOneLinerDescription = bimOneLinerDescription;
+	public void setOne_Liner_Description(String one_Liner_Description) {
+		this.one_Liner_Description = one_Liner_Description;
 	}
 
-	public String getBimRating() {
-		return bimRating;
+	public String getShort_Description() {
+		return short_Description;
 	}
 
-	public void setBimRating(String bimRating) {
-		this.bimRating = bimRating;
+	public void setShort_Description(String short_Description) {
+		this.short_Description = short_Description;
 	}
 
-	public String getBimLayoutType() {
-		return bimLayoutType;
+	public String getRating() {
+		return rating;
 	}
 
-	public void setBimLayoutType(String bimLayoutType) {
-		this.bimLayoutType = bimLayoutType;
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
 
-	public String getBimStatus() {
-		return bimStatus;
+	public String getLayout_Type() {
+		return layout_Type;
 	}
 
-	public void setBimStatus(String bimStatus) {
-		this.bimStatus = bimStatus;
+	public void setLayout_Type(String layout_Type) {
+		this.layout_Type = layout_Type;
 	}
 
-	public String getBimContentId() {
-		return bimContentId;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setBimContentId(String bimContentId) {
-		this.bimContentId = bimContentId;
+	public void setStatus(String status) {
+		this.status = status;
 	}
-		
+
+	public String getContent_Id() {
+		return content_Id;
+	}
+
+	public void setContent_Id(String content_Id) {
+		this.content_Id = content_Id;
+	}
+	
+			
 
 }

@@ -21,40 +21,47 @@ public class Provider {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long providerId;
+	private long id;
 	
-	@Column(name = "provider_logo_url")
-	private String providerLogoUrl;
+	@Column(name = "name")
+	private String name;
 	
+	@Column(name = "logo_url")
+	private String logo_Url;
 	
-	  @ManyToOne	  
-	  @JoinColumn(name = "bim_supplier_id", nullable = false) 
-	  private Bim bim;
-	  
-	  @OneToMany
-	  private Set<User> user;
+	@ManyToOne
+	@JoinColumn(name = "bim_supplier_id", nullable = false) 
+	private Bim bim;
 	 
-		
-	//Constructors
+	@OneToMany 
+	private Set<User> user;
+	
 	public Provider() {
 		super();
 	}
 
-	public Provider(String providerLogoUrl) {
+	public Provider(String name, String logo_Url) {
 		super();
-		this.providerLogoUrl = providerLogoUrl;
+		this.name = name;
+		this.logo_Url = logo_Url;
 	}
 
-	//Getters&Setters
-	public String getProviderLogoUrl() {
-		return providerLogoUrl;
+	public String getName() {
+		return name;
 	}
 
-	public void setProviderLogoUrl(String providerLogoUrl) {
-		this.providerLogoUrl = providerLogoUrl;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	
+
+	public String getLogo_Url() {
+		return logo_Url;
+	}
+
+	public void setLogo_Url(String logo_Url) {
+		this.logo_Url = logo_Url;
+	}
+		
 			
 
 }
