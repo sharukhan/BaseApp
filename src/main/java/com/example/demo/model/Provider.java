@@ -30,7 +30,7 @@ public class Provider {
 	private String logo_Url;
 	
 	@ManyToOne
-	@JoinColumn(name = "bim_supplier_id", nullable = false) 
+	@JoinColumn(name = "supplier_id", nullable = false) 
 	private Bim bim;
 	 
 	@OneToMany 

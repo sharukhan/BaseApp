@@ -34,7 +34,7 @@ public class BimInstance {
 	
 	
 	 @OneToOne	  
-	 @JoinColumn(name = "bim_supplier_id") 
+	 @JoinColumn(name = "supplier_id") 
 	 private Bim bim;
 	  
 	 @ManyToMany 

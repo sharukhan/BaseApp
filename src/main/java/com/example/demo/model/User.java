@@ -45,15 +45,15 @@ public class User {
 	
 	
 	 @ManyToMany	 
-	 @JoinColumn(name = "bim_instance_client_id") 
+	 @JoinColumn(name = "client_id") 
 	 private BimInstance bimInstance;
 	 
 	 @ManyToOne	 
-	 @JoinColumn(name = "client_id") 
+	 @JoinColumn(name = "id") 
 	 private Client client;
 	 
 	 @ManyToOne	 
-	 @JoinColumn(name = "provider_id") 
+	 @JoinColumn(name = "id") 
 	 private Provider provider;
 	 
 	 @ManyToOne
