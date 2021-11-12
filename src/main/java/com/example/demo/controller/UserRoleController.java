@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Bim;
 import com.example.demo.model.Client;
 import com.example.demo.model.UserRole;
 import com.example.demo.repository.UserRoleRepository;
@@ -34,71 +36,64 @@ public class UserRoleController {
 	private UserRoleService userRoleService;
 	
 	//get All BimInstance
-		@GetMapping("/listAllInstance")
-		public List<UserRole> getAllBimInstanceDetail(){
-			List<UserRole> userRoleDetail = new ArrayList<>();
+		@GetMapping(value = "/listAll", produces = "application/json", consumes = "application/json")
+		public ResponseEntity<List<UserRole>> getAllUserRoleDetail(){
 			try {
-				userRoleDetail = userRoleService.getAllUserRole();
+				List<UserRole> userRole = userRoleService.getAllUserRole();				
+				return new ResponseEntity<>(userRole, HttpStatus.OK);
 			}
 			catch (Exception e) {
-				System.out.println(e);
-			}
-			
-			return userRoleDetail;
+			      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			    }
 		}
 		
 		//get BimInstance by id
-		@GetMapping("/Detail/{id}")
-		public UserRole getBimInstanceById(@PathVariable(value = "id") Long userRoleId)
+		@GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
+		public ResponseEntity<UserRole> getUserRoleById(@PathVariable(value = "id") Long userRoleId)
 			throws ResourceNotFoundException {
-			UserRole userRole = new UserRole();
 			try {
-				userRole = userRoleService.getUserRoleById(userRoleId);
+				return new ResponseEntity<>(userRoleService.getUserRoleById(userRoleId),HttpStatus.OK);
 			}
 			catch (Exception e) {
-				System.out.println(e);
-			}
-			
-			return userRole;
+			      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			    }
 		}
 		
 		//save BimInstance
-		@PostMapping("/createInstance")
-		public UserRole createBimInstance(@RequestBody UserRole userRole) {
+		@PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
+		public ResponseEntity<UserRole> createUserRole(@RequestBody UserRole userRole) {
 			try {
-				userRoleService.createUserRole(userRole);
+				UserRole userRole1 = userRoleService.createUserRole(userRole);
+				return new ResponseEntity<>(userRole1,HttpStatus.CREATED);
 			}
 			catch (Exception e) {
-				System.out.println(e);
-			}
-			return userRole;
+			      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			    }
 		}
 		
 		//update BimInstance
-		@PutMapping("/updateInstance/{id}")
-		public ResponseEntity<UserRole> updateBimInstance(@PathVariable(value = "id") Long userRoleId, @Validated @RequestBody UserRole userRoleDetail) throws ResourceNotFoundException{
+		@PutMapping(value = "/update/{id}", produces = "application/json", consumes = "application/json")
+		public ResponseEntity<UserRole> updateUserRole(@PathVariable(value = "id") Long userRoleId, @Validated @RequestBody UserRole userRoleDetail) throws ResourceNotFoundException{
 			
 			try {
 				userRoleService.updateUserRole(userRoleId, userRoleDetail);
+				return new ResponseEntity<>(HttpStatus.OK);
 			}
 			catch (Exception e) {
-				System.out.println(e);
-			}
-			return null;
+			      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			    }
 			
 		}
 		
 		//delete BimInstance
-		@DeleteMapping("/deleteInstance/{id}")
-		public void deleteBimInstance(@PathVariable(value = "id") Long userRoleId) throws ResourceNotFoundException {
-			
+		@DeleteMapping(value = "/delete/{id}", produces = "application/json", consumes = "application/json")
+		public ResponseEntity<UserRole> deleteUserRole(@PathVariable(value = "id") Long userRoleId) throws ResourceNotFoundException {			
 			try {
 				userRoleService.deleteUserRole(userRoleId);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			catch (Exception e) {
-				System.out.println(e);
-			}
-			
+			      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			    }			
 		}
-
 }

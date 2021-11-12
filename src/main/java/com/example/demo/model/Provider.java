@@ -1,18 +1,18 @@
 package com.example.demo.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -21,7 +21,8 @@ public class Provider {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	@Column(name = "provider_id")
+	private long providerId;
 	
 	@Column(name = "name")
 	private String name;
@@ -29,12 +30,10 @@ public class Provider {
 	@Column(name = "logo_url")
 	private String logo_Url;
 	
-	@ManyToOne
-	@JoinColumn(name = "supplier_id", nullable = false) 
-	private Bim bim;
-	 
-	@OneToMany 
-	private Set<User> user;
+	@Transient
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "supplier_id", referencedColumnName = "provider_id")
+	private Set<Bim> bim = new HashSet<>();
 	
 	public Provider() {
 		super();
@@ -44,6 +43,29 @@ public class Provider {
 		super();
 		this.name = name;
 		this.logo_Url = logo_Url;
+	}
+	
+	
+
+	public Provider(Set<Bim> bim) {
+		super();
+		this.bim = bim;
+	}
+
+	public Set<Bim> getBim() {
+		return bim;
+	}
+
+	public void setBim(Set<Bim> bim) {
+		this.bim = bim;
+	}
+
+	public long getProviderId() {
+		return providerId;
+	}
+
+	public void setProviderId(long providerId) {
+		this.providerId = providerId;
 	}
 
 	public String getName() {

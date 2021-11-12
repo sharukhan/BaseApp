@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Bim;
 import com.example.demo.model.Provider;
 import com.example.demo.repository.ProviderRepository;
 
@@ -26,7 +28,9 @@ public class ProviderService {
 	ProviderRepository providerRepository;
 	
 	public List<Provider> getAllProviders(){
-		return this.providerRepository.findAll();
+		List<Provider> provider = new ArrayList<>();
+		providerRepository.findAll().forEach(provider::add);
+		return provider;
 	}
 	
 	public Provider getProviderById(Long providerId)
@@ -39,30 +43,15 @@ public class ProviderService {
 		return this.providerRepository.save(provider);
 	}
 	
-	//update provider
-	@PutMapping("/update/{id}")
-	public Provider updateProvider(Long providerId,Provider providerDetail) throws ResourceNotFoundException{
-		
+	public Provider updateProvider(Long providerId,Provider providerDetail) throws ResourceNotFoundException{		
 		Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
 		provider.setName(providerDetail.getName());
 		provider.setLogo_Url(providerDetail.getLogo_Url());
-		return this.providerRepository.save(provider);
-		
-	}
-	
+		return this.providerRepository.save(provider);		
+	}	
 
-	public Map<String, Boolean> deleteProvider(Long providerId) throws ResourceNotFoundException {
-		
+	public void deleteProvider(Long providerId) throws ResourceNotFoundException {		
 		Provider provider = providerRepository.findById(providerId).orElseThrow(() -> new ResourceNotFoundException("Provider not found:" + providerId));
-		this.providerRepository.delete(provider);
-		
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		
-		return response;
-		
+		this.providerRepository.delete(provider);		
 	}
-	
-	
-
 }

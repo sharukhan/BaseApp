@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Bim;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
@@ -27,7 +29,9 @@ public class UserService {
 	
 	
 		public List<User> getAllUser(){
-			return this.userRepository.findAll();
+			List<User> user = new ArrayList<>();
+			userRepository.findAll().forEach(user::add);
+			return user;
 		}
 		
 		
@@ -38,12 +42,11 @@ public class UserService {
 			
 		}
 		
-		public User createUser(@RequestBody User user) {
+		public User createUser(User user) {
 			return this.userRepository.save(user);
 		}
 		
-		public User updateUser(Long userId, @Validated @RequestBody User userDetail) throws ResourceNotFoundException{
-			
+		public User updateUser(Long userId, User userDetail) throws ResourceNotFoundException{			
 			User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found:" + userId));
 			user.setRole_Id(userDetail.getRole_Id());
 			user.setName(userDetail.getName());
@@ -51,20 +54,12 @@ public class UserService {
 			user.setEmail(userDetail.getEmail());
 			user.setSupplier_Id(userDetail.getSupplier_Id());
 			user.setClient_Id(userDetail.getClient_Id());
-			return this.userRepository.save(user);
-			
+			return this.userRepository.save(user);			
 		}
 		
-		public Map<String, Boolean> deleteUser(Long userId) throws ResourceNotFoundException {
-			
+		public void deleteUser(Long userId) throws ResourceNotFoundException {			
 			User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found:" + userId));
 			this.userRepository.delete(user);
-			
-			Map<String, Boolean> response = new HashMap<>();
-			response.put("deleted", Boolean.TRUE);
-			
-			return response;
-			
 		}
 
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Bim;
 import com.example.demo.model.BimInstance;
 import com.example.demo.repository.BimInstanceRepository;
 
@@ -27,7 +29,9 @@ public class BimInstanceService {
 	
 	
 	public List<BimInstance> getAllBimInstanceDetail(){
-		return this.bimInstanceRepository.findAll();
+		List<BimInstance> bimInstance = new ArrayList<>();
+		bimInstanceRepository.findAll().forEach(bimInstance::add);
+		return bimInstance;
 	}
 	
 	public BimInstance getBimInstanceById(Long bInsId)
@@ -41,27 +45,18 @@ public class BimInstanceService {
 		return this.bimInstanceRepository.save(bimInstance);
 	}
 	
-	public BimInstance updateBimInstance(Long bInsId,BimInstance bimInstanceDetail) throws ResourceNotFoundException{
-		
+	public BimInstance updateBimInstance(Long bInsId,BimInstance bimInstanceDetail) throws ResourceNotFoundException{		
 		BimInstance bimInstance = bimInstanceRepository.findById(bInsId).orElseThrow(() -> new ResourceNotFoundException("Bim Insatnce not found:" + bInsId));
 		bimInstance.setClient_Id(bimInstanceDetail.getClient_Id());
 		bimInstance.setSupplier_Id(bimInstanceDetail.getSupplier_Id());
 		bimInstance.setBim_Id(bimInstanceDetail.getBim_Id());
 		bimInstance.setStatus(bimInstanceDetail.getStatus());
-		return this.bimInstanceRepository.save(bimInstance);
-		
+		return this.bimInstanceRepository.save(bimInstance);		
 	}
 	
-	public Map<String, Boolean> deleteBimInstance(Long bInsId) throws ResourceNotFoundException {
-		
+	public void deleteBimInstance(Long bInsId) throws ResourceNotFoundException {		
 		BimInstance bimInstance = bimInstanceRepository.findById(bInsId).orElseThrow(() -> new ResourceNotFoundException("Bim Insatnce not found:" + bInsId));
-		this.bimInstanceRepository.delete(bimInstance);
-		
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		
-		return response;
-		
+		this.bimInstanceRepository.delete(bimInstance);	
 	}
 
 }

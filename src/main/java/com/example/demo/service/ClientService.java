@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,9 @@ public class ClientService {
 	ClientRepository clientRepository;
 	
 	public List<Client> getAllClientDetail(){
-		return this.clientRepository.findAll();
+		List<Client> client = new ArrayList<>();
+		clientRepository.findAll().forEach(client::add);
+		return client;
 	}
 	
 	public Client getClientById(Long clientId)
@@ -39,27 +42,18 @@ public class ClientService {
 		return this.clientRepository.save(client);
 	}
 	
-	public Client updateClient(Long clientId, Client clientDetail) throws ResourceNotFoundException{
-		
+	public Client updateClient(Long clientId, Client clientDetail) throws ResourceNotFoundException{		
 		Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found:" + clientId));
 		client.setName(clientDetail.getName());
 		client.setIndustry(clientDetail.getIndustry());
 		client.setCountry(clientDetail.getCountry());
-		return this.clientRepository.save(client);
-		
+		return this.clientRepository.save(client);		
 	}
 	
 
-	public Map<String, Boolean> deleteClient(Long clientId) throws ResourceNotFoundException {
-		
+	public void deleteClient(Long clientId) throws ResourceNotFoundException {		
 		Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found:" + clientId));
-		this.clientRepository.delete(client);
-		
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		
-		return response;
-		
+		this.clientRepository.delete(client);		
 	}
 
 }

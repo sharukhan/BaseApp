@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,71 +36,63 @@ public class ProviderController {
 	private ProviderService providerService;
 	
 	//get provider 
-			@GetMapping("/providers")
-			public List<Provider> getAllProviders(){
-				List<Provider> providerDetail = new ArrayList<>();
+			@GetMapping(value = "/listAll", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<List<Provider>> getAllProviders(){
 				try {
-					providerDetail = providerService.getAllProviders();
+					List<Provider> provider = providerService.getAllProviders();				
+					return new ResponseEntity<>(provider, HttpStatus.OK);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				
-				return providerDetail;
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }
 			}
 			
 			//get provider by id
-			@GetMapping("/provider/{id}")
-			public Provider getProviderById(@PathVariable(value = "id") Long providerId)
+			@GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<Provider> getProviderById(@PathVariable(value = "id") Long providerId)
 				throws ResourceNotFoundException {
-				Provider provider = new Provider();
 				try {
-					provider = providerService.getProviderById(providerId);
+					return new ResponseEntity<>(providerService.getProviderById(providerId),HttpStatus.OK);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				
-				return provider;
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }
 			}
 			
 			//save provider
-			@PostMapping("/createProvider")
-			public Provider createProvider(@RequestBody Provider provider) {
+			@PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<Provider> createProvider(@RequestBody Provider provider) {
 				try {
-					providerService.createProvider(provider);
+					Provider provider1 = providerService.createProvider(provider);
+					return new ResponseEntity<>(provider1,HttpStatus.CREATED);
 				}
 				catch (Exception e) {
-					System.out.println(e);
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }
 				}
-				return provider;
-			}
 			
 			//update provider
-			@PutMapping("/update/{id}")
-			public ResponseEntity<Provider> updateProvider(@PathVariable(value = "id") Long providerId, @Validated @RequestBody Provider providerDetail) throws ResourceNotFoundException{
-				
+			@PutMapping(value = "/update/{id}", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<Provider> updateProvider(@PathVariable(value = "id") Long providerId, @Validated @RequestBody Provider providerDetail) throws ResourceNotFoundException{				
 				try {
 					providerService.updateProvider(providerId, providerDetail);
+					return new ResponseEntity<>(HttpStatus.OK);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				return null;
-				
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }			
 			}
 			
 			//delete Provider
-			@DeleteMapping("/deleteProvider/{id}")
-			public void deleteProvider(@PathVariable(value = "id") Long providerId) throws ResourceNotFoundException {
-				
+			@DeleteMapping(value = "/delete/{id}", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<Provider> deleteProvider(@PathVariable(value = "id") Long providerId) throws ResourceNotFoundException {				
 				try {
 					providerService.deleteProvider(providerId);
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }				
 			}
 
 }

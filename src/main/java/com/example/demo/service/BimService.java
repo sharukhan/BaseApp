@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,21 +23,22 @@ public class BimService {
 	BimRepository bimRepository;
 	
 	public List<Bim> getAllBimDetail(){
-		return this.bimRepository.findAll();
+		List<Bim> bim = new ArrayList<>();
+		bimRepository.findAll().forEach(bim::add);
+		return bim;
 	}
 	
-	public Bim getBimUserById(Long bimId)
+	public Bim getBimById(Long bimId)
 			throws ResourceNotFoundException {
 			Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
 			return bim;
 		}
 	
-	public Bim createBimUser(Bim bim) {
+	public Bim createBim(Bim bim) {
 		return this.bimRepository.save(bim);
 	}
 	
-	public Bim updateBimUser(Long bimId, Bim bimDetail) throws ResourceNotFoundException{
-		
+	public Bim updateBim(Long bimId, Bim bimDetail) throws ResourceNotFoundException{		
 		Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
 		bim.setSupplierId(bimDetail.getSupplierId());
 		bim.setTitle(bimDetail.getTitle());
@@ -48,20 +50,12 @@ public class BimService {
 		bim.setStatus(bimDetail.getStatus());
 		bim.setContent_Id(bimDetail.getContent_Id());
 		bim.setShort_Description(bimDetail.getShort_Description());
-		return this.bimRepository.save(bim);
-		
+		return this.bimRepository.save(bim);		
 	}
 	
-	public Map<String, Boolean> deleteBimUser(Long bimId) throws ResourceNotFoundException {
-		
+	public void deleteBim(Long bimId) throws ResourceNotFoundException {		
 		Bim bim = bimRepository.findById(bimId).orElseThrow(() -> new ResourceNotFoundException("Bim not found:" + bimId));
-		this.bimRepository.delete(bim);
-		
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		
-		return response;
-		
+		this.bimRepository.delete(bim);		
 	}
 
 }

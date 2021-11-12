@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,71 +36,63 @@ public class ClientController {
 	
 	
 	//get client
-			@GetMapping("/listAll")
-			public List<Client> getAllClientDetail(){
-				List<Client> clientDetail = new ArrayList<>();
+			@GetMapping(value = "/listAll", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<List<Client>> getAllClientDetail(){
 				try {
-					clientDetail = clientService.getAllClientDetail();
+					List<Client> client = clientService.getAllClientDetail();				
+					return new ResponseEntity<>(client, HttpStatus.OK);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				
-				return clientDetail;
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }
 			}
 			
 			//get client by id
-			@GetMapping("/Detail/{id}")
-			public Client getClientById(@PathVariable(value = "id") Long clientId)
+			@GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<Client> getClientById(@PathVariable(value = "id") Long clientId)
 				throws ResourceNotFoundException {
-				Client client = new Client();
 				try {
-					client = clientService.getClientById(clientId);
+					return new ResponseEntity<>(clientService.getClientById(clientId),HttpStatus.OK);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				
-				return client;
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }
 			}
 			
 			//save client
-			@PostMapping("/createClient")
-			public Client createClient(@RequestBody Client client) {
+			@PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<Client> createClient(@RequestBody Client client) {
 				try {
-					clientService.createClient(client);
+					Client client1 = clientService.createClient(client);
+					return new ResponseEntity<>(client1,HttpStatus.CREATED);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				return client;
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }
 			}
 			
 			//update client
-			@PutMapping("/updateClient/{id}")
-			public ResponseEntity<Client> updateClient(@PathVariable(value = "id") Long clientId, @Validated @RequestBody Client clientDetail) throws ResourceNotFoundException{
-				
+			@PutMapping(value = "/update/{id}", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<Client> updateClient(@PathVariable(value = "id") Long clientId, @Validated @RequestBody Client clientDetail) throws ResourceNotFoundException{				
 				try {
 					clientService.updateClient(clientId, clientDetail);
+					return new ResponseEntity<>(HttpStatus.OK);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				return null;
-				
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }
 			}
 			
 			//delete client
-			@DeleteMapping("/deleteClient/{id}")
-			public void deleteClient(@PathVariable(value = "id") Long clientId) throws ResourceNotFoundException {
-				
+			@DeleteMapping(value = "/delete/{id}", produces = "application/json", consumes = "application/json")
+			public ResponseEntity<Client> deleteClient(@PathVariable(value = "id") Long clientId) throws ResourceNotFoundException {				
 				try {
 					clientService.deleteClient(clientId);
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}
 				catch (Exception e) {
-					System.out.println(e);
-				}
-				
+				      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+				    }				
 			}
 
 }

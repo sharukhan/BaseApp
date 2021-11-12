@@ -1,42 +1,30 @@
 package com.example.demo.model;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/*@Entity
-@Table(name = "client")*/
+@Entity
+@Table(name = "client")
 public class Client {
 	
 	
 	@Id  
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "client_id")
+	private long clientId;
 	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "name")
+	@Column(name = "industry")
 	private String industry;
 	
 	@Column(name = "country")
 	private String country;
-	
-	
-	@OneToMany(mappedBy = "client") 
-	private Set<User> user;
-	  
-	@ManyToMany 
-	private Set<BimInstance> bimInstance;
-	 
 	
 	public Client() {
 		super();
@@ -47,6 +35,14 @@ public class Client {
 		this.name = name;
 		this.industry = industry;
 		this.country = country;
+	}
+
+	public long getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(long clientId) {
+		this.clientId = clientId;
 	}
 
 	public String getName() {

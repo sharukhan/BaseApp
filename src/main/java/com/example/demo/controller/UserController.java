@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Bim;
 import com.example.demo.model.Client;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
@@ -34,70 +36,66 @@ public class UserController {
 	private UserService userService;
 	
 	//get user 
-	@GetMapping(value = "/users", produces = "application/json", consumes = "application/json")
-	public List<User> getAllUser(){
-		List<User> userDetail = new ArrayList<>();
+	@GetMapping(value = "/list", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<List<User>> getAllUser(){
 		try {
-			userDetail = userService.getAllUser();
+			List<User> user = userService.getAllUser();				
+			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		return userDetail;
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 	}
 	
 	
 	//get user by id
-	@GetMapping("/user/{id}")
-	public User getUserById(@PathVariable(value = "id") Long userId)
+	@GetMapping(value = "/{id}" ,produces = "application/json", consumes = "application/json")
+	public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId)
 		throws ResourceNotFoundException {
-		User user = new User();
 		try {
-			user = userService.getUserById(userId);
+			return new ResponseEntity<>(userService.getUserById(userId),HttpStatus.OK);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		return user;
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 	}
 	
 	//save user
-	@PostMapping("/createUser")
-	public User createUser(@RequestBody User user) {
+	@PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<User> createUser(@RequestBody User user) {
 		try {
-			userService.createUser(user);
+			User user1 = userService.createUser(user);
+			return new ResponseEntity<>(user1,HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
-		return user;
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 	}
 	
 	//update user
-	@PutMapping("/update/{id}")
+	@PutMapping(value = "/update/{id}",produces = "application/json", consumes = "application/json")
 	public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId, @Validated @RequestBody User userDetail) throws ResourceNotFoundException{
 		
 		try {
 			userService.updateUser(userId, userDetail);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 		
 	}
 	//delete user
-	@DeleteMapping("/deleteUser/{id}")
-	public void deleteUser(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
+	@DeleteMapping(value = "/deleteUser/{id}", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<User> deleteUser(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
 		
 		try {
 			userService.deleteUser(userId);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 		
 	}
 

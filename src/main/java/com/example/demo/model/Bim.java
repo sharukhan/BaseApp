@@ -1,19 +1,18 @@
 package com.example.demo.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "bim")
@@ -21,10 +20,11 @@ public class Bim {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	@Column(name = "bim_id")
+	private long bimId;
 	
 	@Column(name = "supplier_id")
-	private String supplierId;
+	private long supplierId;
 	
 	@Column(name = "title")
 	private String title;
@@ -51,25 +51,20 @@ public class Bim {
 	private String status;
 	
 	@Column(name = "content_id")
-	private String content_Id;
+	private long content_Id;	
 	
-	
-	  @OneToMany(mappedBy = "bim") 
-	  private Set<Provider> providers;
-	 
-		
-	  @OneToOne(mappedBy = "bim") 
-	  private BimInstance bimInstance;
-		 
-	
+	@Transient
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "bim_id", referencedColumnName = "bim_id")
+	private Set<BimInstance> bimInstance = new HashSet<>();
 	
 
 	public Bim() {
 		super();
 	}
 
-	public Bim(String supplierId, String title, String insight_Url, String benefits_Url, String one_Liner_Description,
-			String short_Description, String rating, String layout_Type, String status, String content_Id) {
+	public Bim(long supplierId, String title, String insight_Url, String benefits_Url, String one_Liner_Description,
+			String short_Description, String rating, String layout_Type, String status, long content_Id) {
 		super();
 		this.supplierId = supplierId;
 		this.title = title;
@@ -82,12 +77,35 @@ public class Bim {
 		this.status = status;
 		this.content_Id = content_Id;
 	}
+	
+	
 
-	public String getSupplierId() {
+	public Bim(Set<BimInstance> bimInstance) {
+		super();
+		this.bimInstance = bimInstance;
+	}
+
+	public Set<BimInstance> getBimInstance() {
+		return bimInstance;
+	}
+
+	public void setBimInstance(Set<BimInstance> bimInstance) {
+		this.bimInstance = bimInstance;
+	}
+
+	public long getBimId() {
+		return bimId;
+	}
+
+	public void setBimId(long bimId) {
+		this.bimId = bimId;
+	}
+
+	public long getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(String supplierId) {
+	public void setSupplierId(long supplierId) {
 		this.supplierId = supplierId;
 	}
 
@@ -155,11 +173,11 @@ public class Bim {
 		this.status = status;
 	}
 
-	public String getContent_Id() {
+	public long getContent_Id() {
 		return content_Id;
 	}
 
-	public void setContent_Id(String content_Id) {
+	public void setContent_Id(long content_Id) {
 		this.content_Id = content_Id;
 	}
 	

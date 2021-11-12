@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,70 +35,65 @@ public class BimInstanceController {
 	private BimInstanceService bimInstanceService;
 	
 	//get All BimInstance
-	@GetMapping("/listAllInstance")
-	public List<BimInstance> getAllBimInstanceDetail(){
-		List<BimInstance> bimInstance = new ArrayList<>();
+	@GetMapping(value = "/listAll", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<List<BimInstance>> getAllBimInstanceDetail(){
 		try {
-			bimInstance = bimInstanceService.getAllBimInstanceDetail();
+			List<BimInstance> bimInstance = bimInstanceService.getAllBimInstanceDetail();				
+			return new ResponseEntity<>(bimInstance, HttpStatus.OK);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		return bimInstance;
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 	}
 	
 	//get BimInstance by id
-	@GetMapping("/Detail/{id}")
-	public BimInstance getBimInstanceById(@PathVariable(value = "id") Long bInsId)
+	@GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<BimInstance> getBimInstanceById(@PathVariable(value = "id") Long bInsId)
 		throws ResourceNotFoundException {
-		BimInstance bimInstance = new BimInstance();
-			try {
-				bimInstance = bimInstanceService.getBimInstanceById(bInsId);
-			}
-			catch (Exception e) {
-				System.out.println(e);
-			}
-			
-			return bimInstance;
+		try {
+			return new ResponseEntity<>(bimInstanceService.getBimInstanceById(bInsId),HttpStatus.OK);
+		}
+		catch (Exception e) {
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 	}
 	
 	//save BimInstance
-	@PostMapping("/createInstance")
-	public BimInstance createBimInstance(@RequestBody BimInstance bimInstance) {
+	@PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<BimInstance> createBimInstance(@RequestBody BimInstance bimInstance) {
 		try {
-			bimInstanceService.createBimInstance(bimInstance);
+			BimInstance bimInstance1 = bimInstanceService.createBimInstance(bimInstance);
+			return new ResponseEntity<>(bimInstance1,HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
-		return bimInstance;
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 	}
 	
 	//update BimInstance
-	@PutMapping("/updateInstance/{id}")
+	@PutMapping(value = "/update/{id}", produces = "application/json", consumes = "application/json")
 	public ResponseEntity<BimInstance> updateBimInstance(@PathVariable(value = "id") Long bInsId, @Validated @RequestBody BimInstance bimInstanceDetail) throws ResourceNotFoundException{
 		
 		try {
 			bimInstanceService.updateBimInstance(bInsId, bimInstanceDetail);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
-		
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 	}
 	
 	//delete BimInstance
-	@DeleteMapping("/deleteInstance/{id}")
-	public void deleteBimInstance(@PathVariable(value = "id") Long bInsId) throws ResourceNotFoundException {
+	@DeleteMapping(value = "/delete/{id}", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<Bim> deleteBimInstance(@PathVariable(value = "id") Long bInsId) throws ResourceNotFoundException {
 		
 		try {
 			bimInstanceService.deleteBimInstance(bInsId);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		catch (Exception e) {
-			System.out.println(e);
-		}
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 		
 	}
 

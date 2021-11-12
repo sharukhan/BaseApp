@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Bim;
 import com.example.demo.model.UserRole;
 import com.example.demo.repository.UserRoleRepository;
 
@@ -27,14 +29,15 @@ public class UserRoleService {
 	
 	
 			public List<UserRole> getAllUserRole(){
-				return this.userRoleRepository.findAll();
+				List<UserRole> userRole = new ArrayList<>();
+				userRoleRepository.findAll().forEach(userRole::add);
+				return userRole;
 			}
 			
 			public UserRole getUserRoleById(Long userRoleId)
 				throws ResourceNotFoundException {
 				UserRole userRole = userRoleRepository.findById(userRoleId).orElseThrow(() -> new ResourceNotFoundException("User Role not found:" + userRoleId));
-				return userRole;
-				
+				return userRole;				
 			}
 			
 			public UserRole createUserRole(UserRole userRole) {
@@ -42,25 +45,15 @@ public class UserRoleService {
 			}
 			
 			
-			public UserRole updateUserRole(Long userRoleId, UserRole userRoleDetail) throws ResourceNotFoundException{
-				
+			public UserRole updateUserRole(Long userRoleId, UserRole userRoleDetail) throws ResourceNotFoundException{				
 				UserRole userRole = userRoleRepository.findById(userRoleId).orElseThrow(() -> new ResourceNotFoundException("User Role not found:" + userRoleId));
 				userRole.setName(userRoleDetail.getName());
-				return this.userRoleRepository.save(userRole);
-				
+				return this.userRoleRepository.save(userRole);				
 			}
 			
 			
-			public Map<String, Boolean> deleteUserRole(Long userRoleId) throws ResourceNotFoundException {
-				
+			public void deleteUserRole(Long userRoleId) throws ResourceNotFoundException {				
 				UserRole userRole = userRoleRepository.findById(userRoleId).orElseThrow(() -> new ResourceNotFoundException("User Role not found:" + userRoleId));
-				this.userRoleRepository.delete(userRole);
-				
-				Map<String, Boolean> response = new HashMap<>();
-				response.put("deleted", Boolean.TRUE);
-				
-				return response;
-				
+				this.userRoleRepository.delete(userRole);				
 			}
-
 }
